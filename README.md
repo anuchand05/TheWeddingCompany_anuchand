@@ -199,6 +199,11 @@ Stateless authentication system for secure admin login and token-based access.
 
 Alternative: Use one shared collection with a tenant_id field (scales better for many small tenants).
 
+## Author
+
+**Anuchand C**  
+The Wedding Company 2025  
+[LinkedIn](https://www.linkedin.com/in/anuchand-chelladurai/)
 
 
 
