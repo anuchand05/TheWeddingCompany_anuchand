@@ -1,34 +1,78 @@
-# 🏢 Organization Management Service  
-### Backend Intern Assignment – Multi-Tenant Architecture (FastAPI + MongoDB)
+# Organization Management Service  
+### Backend Intern Assignment – FastAPI + MongoDB (Multi-Tenant Architecture)
 
-This project implements a **multi-tenant backend system** where each organization gets its own isolated MongoDB collection.  
-A **Master Database** stores global metadata and admin credentials, while **JWT authentication** ensures secure tenant-level operations.
+This project implements a **multi-tenant backend service** where each organization gets its own isolated MongoDB collection.  
+A **Master Database** stores organization metadata and admin credentials.  
+Dynamic collections (`org_<organization_name>`) are created for every new organization.
 
-Built using **FastAPI**, **Motor**, **MongoDB**, **JWT**, and **Argon2** password hashing.
+Technologies used: **FastAPI**, **MongoDB (Motor)**, **JWT**, **Argon2 Hashing**, **Pydantic Settings**
 
 ---
 
-##  Features
+## Features
 
-###  Multi-tenant architecture  
-- Each organization gets a dynamic MongoDB collection:  
-  `org_<organization_name>`
+### Multi-Tenant Design
+- Automatically creates a MongoDB collection for each new organization  
+- Format: `org_<organization_name>`
 
-###  Master Database  
+### Master Database
 Stores:
-- Organization metadata  
+- Organization name  
 - Collection reference  
-- Admin credentials (securely hashed)  
-- Connection info (if needed)
+- Admin reference  
+- Connection details  
 
-###  Admin Authentication  
+### Admin Authentication
 - JWT-based login  
-- Hashed passwords using **Argon2** (recommended modern hashing algorithm)
+- Passwords hashed using **Argon2** (more secure than bcrypt)
 
-###  CRUD Operations for Organizations  
-- Create Organization  
-- Get Organization  
-- Update Organization (with optional collection rename & syncing)  
-- Delete Organization (admin authenticated)
+###  Organization Management
+- Create new organization  
+- Get organization details  
+- Update organization info  
+- Delete organization (admin-authenticated)
 
-All APIs are available and testable through **Swagger UI** at:
+---
+
+#  Project Structure
+
+org-mgmt-service/
+├─ app/
+│  ├─ main.py
+│  ├─ config.py
+│  ├─ db.py
+│  ├─ auth.py
+│  ├─ schemas.py
+│  ├─ routers/
+│  │   ├─ orgs.py
+│  │   └─ admin.py
+├─ docker-compose.yml
+├─ requirements.txt
+├─ README.md
+└─ .gitignore
+
+
+---
+
+#  Installation & Setup
+
+## 1.Clone the Repository
+```bash
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+```
+## 2.Create & Activate Virtual Environment
+```bash
+python3.11 -m venv venv
+source venv/bin/activate
+```
+## 3.Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+## If requirements file not present:
+```bash
+pip install fastapi uvicorn[standard] motor pydantic-settings \
+passlib[argon2] argon2-cffi PyJWT python-dotenv email-validator
+
+```
