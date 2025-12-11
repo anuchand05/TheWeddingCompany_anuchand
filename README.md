@@ -115,6 +115,15 @@ Once the server is running, access Swagger UI at:
 
 
 # API Endpoints
+## 1. Create Organization
+POST /org/create
+```json
+{
+  "organization_name": "sampleco",
+  "email": "admin@sample.com",
+  "password": "pass123"
+}
+```
 
 
 
