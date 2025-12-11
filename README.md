@@ -88,7 +88,7 @@ brew services start mongodb-community@7.0
 docker run -d -p 27017:27017 --name mongo mongo:7
 ```
 
-## Environment Variables
+# Environment Variables
 
 Create a `.env` file inside the project root and add:
 
@@ -101,17 +101,21 @@ ACCESS_TOKEN_EXPIRE_SECONDS=3600
 ```
 (Do NOT commit .env to GitHub)
 
-## Run the Application
+# Run the Application
 ```bash
 uvicorn app.main:app --reload
 ```
 
 
-## Swagger Documentation
+# Swagger Documentation
 
 Once the server is running, access Swagger UI at:
 
 👉 http://127.0.0.1:8000/docs
+
+
+# API Endpoints
+
 
 
 
