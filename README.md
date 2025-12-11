@@ -77,3 +77,28 @@ pip install fastapi uvicorn[standard] motor pydantic-settings \
 passlib[argon2] argon2-cffi PyJWT python-dotenv email-validator
 
 ```
+
+#  Installation & Setup
+## Start MongoDB (macOS – Homebrew)
+```bash
+brew services start mongodb-community@7.0
+```
+## OR Using Docker
+```bash
+docker run -d -p 27017:27017 --name mongo mongo:7
+```
+
+## Environment Variables
+
+## Create a `.env` file inside the project root and add:
+
+```env
+MONGO_URI=mongodb://localhost:27017
+MASTER_DB=master_db
+JWT_SECRET=super_secret_key
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_SECONDS=3600
+```
+(Do NOT commit .env to GitHub)
+
+
