@@ -149,7 +149,7 @@ Response:
 ```
 Use the token in Swagger via Authorize → Bearer <token>.
 
-## 3.Delete Organization (Protected)
+## 3. Delete Organization (Protected)
 DELETE /org/delete/organization_name=sampleco
 -Requires JWT token.
 Response:
@@ -157,7 +157,7 @@ Response:
 "Organization deleted successfully"
 ```
 
-## 🏗️ High-Level Architecture Diagram
+## High-Level Architecture Diagram
 
 ```mermaid
 flowchart LR
@@ -169,4 +169,36 @@ flowchart LR
     DynamicDB --> C1[org_sampleco]
     DynamicDB --> C2[org_company2]
 ```
+
+## Design Decisions
+
+### Multi-Tenant Approach
+Each organization gets its own isolated collection → ensures clean data separation and prevents data leakage.
+
+### Master DB
+A central database that stores global metadata and organization details → simplifies management and onboarding.
+
+### Argon2 Password Hashing
+Uses a modern, memory-hard hashing algorithm for admin authentication → avoids the compatibility issues seen with bcrypt.
+
+### JWT Authentication
+Stateless authentication system for secure admin login and token-based access.
+
+### FastAPI
+- High performance (based on Starlette + Uvicorn)
+- Automatic interactive API documentation (Swagger & ReDoc)
+- Excellent developer experience and async support
+
+## Trade-Offs
+
+| **Pros**                               | **Cons**                                                              |
+|----------------------------------------|-----------------------------------------------------------------------|
+| Easy to isolate organization data      | Many collections may impact DB performance if tenant count is high   |
+| Fast dynamic creation                  | Harder to run cross-tenant analytics                                 |
+| Simple architecture                    | Scaling requires careful planning                                     |
+
+Alternative: Use one shared collection with a tenant_id field (scales better for many small tenants).
+
+
+
 
