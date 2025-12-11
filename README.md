@@ -170,6 +170,91 @@ flowchart LR
     DynamicDB --> C2[org_company2]
 ```
 
+```mermaid
+flowchart TB
+
+    subgraph CLIENT["👤 Client / Admin"]
+        A1["Browser / API Client"]
+    end
+
+    subgraph API["⚡ FastAPI Application Layer"]
+        A2["Routers (orgs, admin)"]
+        A3["Auth Layer (JWT, Argon2)"]
+        A4["Pydantic Schemas"]
+    end
+
+    subgraph MASTERDB["🗄️ Master MongoDB (Global Metadata)"]
+        M1["organizations Collection"]
+        M2["admins Collection"]
+        M3["connection_details (optional)"]
+    end
+
+    subgraph TENANTDB["📦 Dynamic Tenant Collections"]
+        T1["org_sampleco"]
+        T2["org_company_x"]
+        T3["org_<organization_name>"]
+    end
+
+    A1 -->|HTTP Requests| A2
+    A2 --> A3
+    A2 -->|CRUD Ops| MASTERDB
+    A2 -->|Dynamic Create/Delete| TENANTDB
+```
+```mermaid
+flowchart LR
+    subgraph Client["Client Layer"]
+        C1["Admin UI / Swagger"]
+    end
+
+    subgraph API["FastAPI Service Layer"]
+        R1["Org Router"]
+        R2["Admin Router"]
+        AUTH["Auth Service (JWT, Argon2)"]
+        MODELS["Pydantic Models"]
+    end
+
+    subgraph Data["MongoDB Layer"]
+        MD["Master Database"]
+        MD1["organizations"]
+        MD2["admins"]
+
+        subgraph DynamicDB["Dynamic Collections Per Org"]
+            O1["org_companyA"]
+            O2["org_companyB"]
+            O3["org_<tenant>"]
+        end
+    end
+
+    C1 -->|HTTP Requests| R1
+    C1 -->|Login| R2
+    R2 --> AUTH
+    R1 --> AUTH
+    R1 -->|Metadata| MD
+    R1 -->|Create/Rename/Delete Collections| DynamicDB
+```
+```mermaid
+sequenceDiagram
+    participant Admin
+    participant API as FastAPI Backend
+    participant MasterDB as Master MongoDB
+    participant DynamicDB as Dynamic Org Collections
+
+    Admin->>API: POST /org/create\n(name, email, password)
+    API->>API: Hash password (Argon2)
+    API->>MasterDB: Insert admin & org metadata
+    API->>DynamicDB: Create collection org_<name>
+    API-->>Admin: Return org metadata
+
+    Admin->>API: POST /admin/login\n(email, password)
+    API->>API: Verify & issue JWT
+    API-->>Admin: access_token (JWT)
+
+    Admin->>API: DELETE /org/delete\n(Authorization: Bearer <JWT>)
+    API->>MasterDB: Delete metadata
+    API->>DynamicDB: Drop org_<name> collection
+    API-->>Admin: Confirmation
+```
+
 ## Design Decisions
 
 ### Multi-Tenant Approach
