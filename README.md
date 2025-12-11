@@ -90,7 +90,7 @@ docker run -d -p 27017:27017 --name mongo mongo:7
 
 ## Environment Variables
 
-## Create a `.env` file inside the project root and add:
+Create a `.env` file inside the project root and add:
 
 ```env
 MONGO_URI=mongodb://localhost:27017
@@ -100,5 +100,18 @@ JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_SECONDS=3600
 ```
 (Do NOT commit .env to GitHub)
+
+## Run the Application
+```bash
+uvicorn app.main:app --reload
+```
+
+
+## Swagger Documentation
+
+Once the server is running, access Swagger UI at:
+
+👉 http://127.0.0.1:8000/docs
+
 
 
