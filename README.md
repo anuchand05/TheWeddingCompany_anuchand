@@ -124,7 +124,49 @@ POST /org/create
   "password": "pass123"
 }
 ```
+Response:
+```json
+{
+  "organization_name": "sampleco",
+  "collection_name": "org_sampleco",
+  "admin_email": "admin@sample.com"
+}
+```
+## 2. Admin Login
+POST /admin/login
+```json
+{
+  "email": "admin@sample.com",
+  "password": "pass123"
+}
+```
+Response:
+```json
+{
+  "access_token": "<JWT>",
+  "token_type": "bearer"
+}
+```
+Use the token in Swagger via Authorize → Bearer <token>.
 
+## 3.Delete Organization (Protected)
+DELETE /org/delete/organization_name=sampleco
+-Requires JWT token.
+Response:
+```json
+"Organization deleted successfully"
+```
 
+## 🏗️ High-Level Architecture Diagram
 
+```mermaid
+flowchart LR
+    User -->|API Calls| FastAPI
+    FastAPI --> MasterDB[(Master MongoDB)]
+    MasterDB --> Orgs[organizations collection]
+    MasterDB --> Admins[admins collection]
+    FastAPI --> DynamicDB[(Dynamic Collections)]
+    DynamicDB --> C1[org_sampleco]
+    DynamicDB --> C2[org_company2]
+```
 
