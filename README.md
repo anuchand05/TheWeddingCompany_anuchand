@@ -199,6 +199,9 @@ Stateless authentication system for secure admin login and token-based access.
 
 Alternative: Use one shared collection with a tenant_id field (scales better for many small tenants).
 
+<img width="932" height="719" alt="Screenshot 2025-12-11 at 11 51 23 AM" src="https://github.com/user-attachments/assets/c30d43b9-6625-4ecc-8ce8-2628203c1697" />
+
+
 ## Author
 
 **Anuchand C**  
