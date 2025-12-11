@@ -35,7 +35,7 @@ Stores:
 ---
 
 #  Project Structure
-
+```md
 org-mgmt-service/
 ├─ app/
 │  ├─ main.py
@@ -50,6 +50,7 @@ org-mgmt-service/
 ├─ requirements.txt
 ├─ README.md
 └─ .gitignore
+```
 
 
 ---
